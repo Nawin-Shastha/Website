@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nawin Shastha — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #102040;
+    --navy-light: #1a3260;
+    --blue: #1e5fc2;
+    --blue-bright: #2d7ef7;
+    --accent: #4fb8ff;
+    --gold: #e8b84b;
+    --white: #f4f8ff;
+    --muted: #8aa0c0;
+    --card-bg: #0f1e38;
+    --border: rgba(78, 130, 200, 0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 6%;
+    background: rgba(10, 22, 40, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.25s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 7rem 6% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(30,95,194,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(79,184,255,0.08) 0%, transparent 60%),
+      linear-gradient(160deg, #0a1628 0%, #102040 60%, #0d1a30 100%);
+  }
+
+  .hero-grid-overlay {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(30,95,194,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,95,194,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(45,126,247,0.12);
+    border: 1px solid rgba(45,126,247,0.3);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  h1.hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  h1.hero-name span {
+    background: linear-gradient(135deg, var(--accent), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-tagline {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 2.4rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .hero-tagline strong { color: var(--white); font-weight: 500; }
+
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+    color: #fff;
+    border: none; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 4px 24px rgba(30,95,194,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(30,95,194,0.5);
+  }
+
+  .btn-outline {
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(79,184,255,0.35);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .btn-outline:hover {
+    background: rgba(79,184,255,0.08);
+    border-color: var(--accent);
+  }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3.5rem;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .hero-visual {
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    width: 380px; height: 380px; z-index: 1;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .hero-visual-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(79,184,255,0.12);
+    animation: rotate 20s linear infinite;
+  }
+
+  .hero-visual-ring::before {
+    content: '';
+    position: absolute; top: -4px; left: 50%;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateX(-50%);
+  }
+
+  .hero-visual-ring:nth-child(2) {
+    inset: 30px;
+    animation-duration: 15s;
+    animation-direction: reverse;
+    border-color: rgba(30,95,194,0.2);
+  }
+
+  .hero-avatar {
+    position: absolute; inset: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy-light), var(--blue));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 700;
+    color: var(--white);
+    border: 2px solid rgba(79,184,255,0.2);
+    box-shadow: 0 0 60px rgba(30,95,194,0.3);
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 6rem 6%; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 1rem;
+  }
+
+  .section-label::before {
+    content: ''; width: 28px; height: 2px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--navy-mid);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #about::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(30,95,194,0.12), transparent 70%);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.85;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-text p strong { color: var(--white); font-weight: 500; }
+
+  .about-highlights {
+    display: flex; flex-direction: column; gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .highlight-item {
+    display: flex; align-items: flex-start; gap: 0.8rem;
+    padding: 1rem 1.2rem;
+    background: rgba(30,95,194,0.08);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .highlight-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .highlight-text strong { display: block; font-size: 0.9rem; color: var(--white); }
+  .highlight-text span { font-size: 0.82rem; color: var(--muted); }
+
+  /* ── SERVICES ── */
+  #services { background: var(--navy); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(79,184,255,0.3);
+    box-shadow: 0 20px 50px rgba(10,22,40,0.5);
+  }
+
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(30,95,194,0.25), rgba(45,126,247,0.15));
+    border: 1px solid rgba(30,95,194,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .service-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+  }
+
+  .service-card p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+
+  .service-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+  .tag {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 50px;
+    background: rgba(79,184,255,0.08);
+    border: 1px solid rgba(79,184,255,0.18);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ── SKILLS ── */
+  #skills {
+    background: var(--navy-mid);
+  }
+
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .skill-group { margin-bottom: 2rem; }
+
+  .skill-group-title {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+
+  .skill-bar-item { margin-bottom: 1.1rem; }
+
+  .skill-bar-header {
+    display: flex; justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .skill-bar-name { font-size: 0.88rem; color: var(--white); font-weight: 500; }
+  .skill-bar-pct { font-size: 0.82rem; color: var(--muted); }
+
+  .skill-bar-track {
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: barFill 1.2s ease forwards;
+  }
+
+  .tool-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+  .tool-chip {
+    padding: 0.45rem 1rem;
+    background: rgba(30,95,194,0.1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--white);
+    font-weight: 400;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .tool-chip:hover {
+    background: rgba(30,95,194,0.22);
+    border-color: rgba(79,184,255,0.35);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--navy);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute; bottom: -150px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(30,95,194,0.12), transparent 70%);
+  }
+
+  .contact-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+
+  .contact-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2.5rem 0;
+  }
+
+  .contact-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem 1rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .contact-card:hover {
+    border-color: rgba(79,184,255,0.35);
+    transform: translateY(-4px);
+  }
+
+  .contact-card-icon { font-size: 1.5rem; margin-bottom: 0.6rem; }
+  .contact-card-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+  .contact-card-value { font-size: 0.82rem; color: var(--white); font-weight: 500; word-break: break-all; }
+
+  .contact-cta-text {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #070f1e;
+    padding: 1.8rem 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--white);
+    font-size: 1.1rem;
+  }
+
+  .footer-logo span { color: var(--accent); }
+  .footer-copy { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  @keyframes barFill {
+    to { transform: scaleX(1); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-visual { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .skills-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-cards { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Nawin<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.85rem;">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for Freelance Work</div>
+    <h1 class="hero-name">Nawin<br/><span>Shastha</span></h1>
+    <p class="hero-tagline">
+      I help businesses grow with <strong>Salesforce CRM implementation</strong>,
+      <strong>professional websites</strong>, and <strong>branded graphic design</strong> — all in one place.
+    </p>
+    <div class="hero-ctas">
+      <a href="#services" class="btn-primary">View My Services</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Core Services</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Client Focused</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-visual-ring"></div>
+    <div class="hero-visual-ring"></div>
+    <div class="hero-avatar">NS</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">Your Digital Growth Partner</h2>
+      <p>
+        I'm <strong>Nawin Shastha</strong>, a Salesforce CRM specialist, web developer, and graphic designer based in <strong>Chennai, India</strong>. I work with businesses and entrepreneurs who want to streamline their operations and build a powerful digital presence.
+      </p>
+      <p>
+        With a background in <strong>data analysis, NLP, and systems engineering</strong>, I bring both technical precision and creative thinking to every project — whether that's configuring a Salesforce org, building a website, or designing a brand identity.
+      </p>
+      <p>
+        I'm associated with <strong>Core Syntara</strong>, a Salesforce consulting firm, and <strong>MyTutorialRack</strong>, a Salesforce education platform — giving me deep, hands-on expertise in the Salesforce ecosystem.
+      </p>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <div class="highlight-icon">☁️</div>
+        <div class="highlight-text">
+          <strong>Salesforce Ecosystem Expert</strong>
+          <span>Admin, automation, flows, reports & dashboards</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">🌐</div>
+        <div class="highlight-text">
+          <strong>Website Builder</strong>
+          <span>Professional business websites, landing pages & management</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">🎨</div>
+        <div class="highlight-text">
+          <strong>Graphic Designer</strong>
+          <span>Brand kits, social media visuals & marketing materials</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">📊</div>
+        <div class="highlight-text">
+          <strong>Data & Analytics Background</strong>
+          <span>NLP, data annotation & business intelligence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I Do</div>
+  <h2 class="section-title">Services I Offer</h2>
+  <p class="section-subtitle">End-to-end digital solutions tailored to help your business operate smarter and look better.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">☁️</div>
+      <h3>Salesforce CRM Setup</h3>
+      <p>From org setup to advanced automation — I configure Salesforce to match your business processes and deliver real results from day one.</p>
+      <div class="service-tags">
+        <span class="tag">Org Setup</span>
+        <span class="tag">Automation</span>
+        <span class="tag">Flows</span>
+        <span class="tag">Dashboards</span>
+        <span class="tag">User Management</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌐</div>
+      <h3>Website Creation & Management</h3>
+      <p>I build clean, responsive, and SEO-friendly business websites and handle ongoing maintenance so you can focus on running your business.</p>
+      <div class="service-tags">
+        <span class="tag">Business Sites</span>
+        <span class="tag">Landing Pages</span>
+        <span class="tag">WordPress</span>
+        <span class="tag">Maintenance</span>
+        <span class="tag">SEO-Ready</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎨</div>
+      <h3>Graphic Design</h3>
+      <p>Eye-catching branded visuals for social media, LinkedIn, marketing campaigns, and complete brand identity packages using Canva and more.</p>
+      <div class="service-tags">
+        <span class="tag">LinkedIn Banners</span>
+        <span class="tag">Instagram Posts</span>
+        <span class="tag">Brand Kit</span>
+        <span class="tag">Flyers</span>
+        <span class="tag">Canva</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">My Expertise</div>
+  <h2 class="section-title">Skills & Tools</h2>
+  <p class="section-subtitle">A blend of CRM expertise, web development, design, and data analytics.</p>
+  <div class="skills-layout">
+    <div>
+      <div class="skill-group">
+        <div class="skill-group-title">Salesforce CRM</div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Salesforce Admin</span><span class="skill-bar-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%;animation-delay:0.1s"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Flows & Automation</span><span class="skill-bar-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;animation-delay:0.2s"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Reports & Dashboards</span><span class="skill-bar-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;animation-delay:0.3s"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Apex & Development</span><span class="skill-bar-pct">70%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%;animation-delay:0.4s"></div></div>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Web & Design</div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Website Development</span><span class="skill-bar-pct">82%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%;animation-delay:0.5s"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Graphic Design</span><span class="skill-bar-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;animation-delay:0.6s"></div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group">
+        <div class="skill-group-title">Tools & Platforms</div>
+        <div class="tool-chips">
+          <span class="tool-chip">Salesforce</span>
+          <span class="tool-chip">WordPress</span>
+          <span class="tool-chip">Canva</span>
+          <span class="tool-chip">HTML / CSS</span>
+          <span class="tool-chip">JavaScript</span>
+          <span class="tool-chip">Python</span>
+          <span class="tool-chip">Git</span>
+          <span class="tool-chip">VS Code</span>
+          <span class="tool-chip">Apex</span>
+          <span class="tool-chip">SOQL</span>
+          <span class="tool-chip">Figma</span>
+          <span class="tool-chip">LinkedIn</span>
+          <span class="tool-chip">Google Analytics</span>
+          <span class="tool-chip">SEO Tools</span>
+          <span class="tool-chip">MS Office</span>
+          <span class="tool-chip">Arduino</span>
+        </div>
+      </div>
+      <div class="skill-group" style="margin-top:2rem;">
+        <div class="skill-group-title">Languages</div>
+        <div class="tool-chips">
+          <span class="tool-chip">English</span>
+          <span class="tool-chip">Tamil</span>
+        </div>
+      </div>
+      <div class="skill-group" style="margin-top:2rem;">
+        <div class="skill-group-title">Certifications & Brands</div>
+        <div class="tool-chips">
+          <span class="tool-chip">Core Syntara</span>
+          <span class="tool-chip">MyTutorialRack</span>
+          <span class="tool-chip">Salesforce Ecosystem</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center;">Contact</div>
+    <h2 class="section-title">Let's Work Together</h2>
+    <p class="contact-cta-text">
+      Have a project in mind? Whether it's a Salesforce setup, a new website, or a branding refresh — I'd love to help you get it done right.
+    </p>
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value">nawinshastha@gmail.com</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">📍</div>
+        <div class="contact-card-label">Location</div>
+        <div class="contact-card-value">Chennai, India</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">💼</div>
+        <div class="contact-card-label">Fiverr</div>
+        <div class="contact-card-value">Available for Hire</div>
+      </div>
+    </div>
+    <a href="mailto:nawinshastha@gmail.com" class="btn-primary">Send Me a Message</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Nawin<span>.</span></div>
+  <div class="footer-copy">© 2026 Nawin Shastha. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
